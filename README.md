@@ -1,9 +1,9 @@
 # Clone from date_time_picker
 there are some dependencies that are not compatible with the project I am working on, so I clone this project and make some changes to make it compatible with my project. 
 
-# date_time_picker
+# date_time_picker_plus
 
-[![pub package](https://img.shields.io/pub/v/date_time_picker.svg)](https://pub.dartlang.org/packages/date_time_picker)
+[![pub package](https://img.shields.io/pub/v/date_time_picker_plus.svg)](https://pub.dartlang.org/packages/date_time_picker_plus)
 
 
 A Flutter widget to show a text form field to display a date or clock dialog.\
@@ -16,13 +16,13 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ...
-  date_time_picker: "^2.1.0"
+  date_time_picker: "^1.0.1"
 ```
 
 In your library add the following import:
 
 ```dart
-import 'package:date_time_picker/date_time_picker.dart';
+import 'package:date_time_picker_plus/date_time_picker_plus.dart';
 ```
 
 For help getting started with Flutter, view the online [documentation](https://flutter.io/).
