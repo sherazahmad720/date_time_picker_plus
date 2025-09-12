@@ -1,3 +1,8 @@
+## 1.0.2 - 2025-09-13
+
+* add intl: ^0.20.2 to pubspec.yaml
+
+
 ## 1.0.1 - 2024-11-17
 
 * add intl: ^0.19.0 to pubspec.yaml
