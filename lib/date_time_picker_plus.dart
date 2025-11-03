@@ -769,7 +769,9 @@ class _DateTimePickerState extends FormFieldState<String> {
 
   Future<void> _showTimePickerDialog() async {
     // Store the current date before showing time picker to preserve it
-    final currentDate = _sDate.isNotEmpty ? _sDate : (_dDate.toString().substring(0, 10));
+    // Use _dDate as the source of truth for the selected date
+    final languageCode = widget.locale?.languageCode;
+    final currentDate = DateFormat('yyyy-MM-dd', languageCode).format(_dDate);
     
     final ltTimePicked = await showTimePicker(
       context: context,
@@ -807,9 +809,9 @@ class _DateTimePickerState extends FormFieldState<String> {
       _timeLabelController.text = _sTime;
       final lsOldValue = _sValue;
       
-      // For dateTimeSeparate mode, always use the preserved date
+      // For dateTimeSeparate mode, always use the date from _dDate to ensure we have the latest selected date
       if (widget.type == DateTimePickerType.dateTimeSeparate) {
-        _sDate = currentDate; // Ensure we use the date that was set before time picker
+        _sDate = currentDate; // Use the date preserved from _dDate before time picker opened
         _sValue = '$_sDate $_sTime';
       } else {
         _sValue = _sTime;
