@@ -633,7 +633,13 @@ class _DateTimePickerState extends FormFieldState<String> {
         if (widget.type != DateTimePickerType.time) {
           final lsOldDate = _sDate;
           final lsOldTime = _sTime;
-          _dDate = DateTime.tryParse(lsValue) ?? DateTime.now();
+          final parsedDate = DateTime.tryParse(lsValue);
+          
+          // Only update _dDate if parsing succeeds and returns a valid date
+          // For dateTimeSeparate mode with only date (no time), preserve existing _dDate if it's the same day
+          if (parsedDate != null) {
+            _dDate = parsedDate;
+          }
 
           _sDate = DateFormat('yyyy-MM-dd', languageCode).format(_dDate);
 
@@ -761,9 +767,14 @@ class _DateTimePickerState extends FormFieldState<String> {
       if (_sValue != lsOldValue) {
         onChangedHandler(_sValue);
       }
+      
+      // For dateTimeSeparate, keep the flag true until time is also selected
+      if (widget.type != DateTimePickerType.dateTimeSeparate) {
+        _isSelectingDateTime = false;
+      }
+    } else {
+      _isSelectingDateTime = false; // Reset if user cancels date selection
     }
-    
-    _isSelectingDateTime = false; // Reset flag after date selection complete
   }
 
   void set12HourTimeValues(final TimeOfDay ptTimePicked) {
