@@ -523,6 +523,7 @@ class _DateTimePickerState extends FormFieldState<String> {
   String _sDate = '';
   String _sTime = '';
   String _sPeriod = '';
+  bool _isSelectingDateTime = false; // Flag to prevent didUpdateWidget from resetting values during selection
 
   @override
   DateTimePicker get widget => super.widget as DateTimePicker;
@@ -619,6 +620,11 @@ class _DateTimePickerState extends FormFieldState<String> {
       }
     }
 
+    // Skip updating internal state if we're in the middle of date/time selection
+    if (_isSelectingDateTime) {
+      return;
+    }
+
     if (_effectiveController?.text != null &&
         _effectiveController?.text != '') {
       final lsValue = _effectiveController?.text.trim();
@@ -705,6 +711,8 @@ class _DateTimePickerState extends FormFieldState<String> {
   }
 
   Future<void> _showDatePickerDialog() async {
+    _isSelectingDateTime = true; // Set flag to prevent didUpdateWidget interference
+    
     final ldDatePicked = await showDatePicker(
       context: context,
       initialDate: _dDate,
@@ -754,6 +762,8 @@ class _DateTimePickerState extends FormFieldState<String> {
         onChangedHandler(_sValue);
       }
     }
+    
+    _isSelectingDateTime = false; // Reset flag after date selection complete
   }
 
   void set12HourTimeValues(final TimeOfDay ptTimePicked) {
@@ -768,6 +778,8 @@ class _DateTimePickerState extends FormFieldState<String> {
   }
 
   Future<void> _showTimePickerDialog() async {
+    _isSelectingDateTime = true; // Set flag to prevent didUpdateWidget interference
+    
     // Store the current date before showing time picker to preserve it
     // Use _dDate as the source of truth for the selected date
     final languageCode = widget.locale?.languageCode;
@@ -824,6 +836,8 @@ class _DateTimePickerState extends FormFieldState<String> {
         onChangedHandler(_sValue);
       }
     }
+    
+    _isSelectingDateTime = false; // Reset flag after time selection complete
   }
 
   Future<void> _showDateTimePickerDialog() async {
